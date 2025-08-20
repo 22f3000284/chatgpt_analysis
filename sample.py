@@ -28,19 +28,19 @@ print("Frequency count for Operations department:", operations_count)
 # -------------------------
 # Step 3: Create histogram of department distribution
 # -------------------------
-plt.figure(figsize=(8, 5))
-df["department"].value_counts().plot(kind="bar")
-plt.title("Department Distribution of Employees")
-plt.xlabel("Department")
-plt.ylabel("Count")
+fig, ax = plt.subplots(figsize=(8, 5))
+df["department"].value_counts().plot(kind="bar", ax=ax)
+ax.set_title("Department Distribution of Employees")
+ax.set_xlabel("Department")
+ax.set_ylabel("Count")
 plt.xticks(rotation=45)
 plt.tight_layout()
 
-# Convert matplotlib figure to HTML
-html_chart = mpld3.fig_to_html(plt.gcf())
+# Convert the figure to interactive HTML (contains <script> + <div>)
+chart_html = mpld3.fig_to_html(fig)
 
 # -------------------------
-# Step 4: Embed email, code, and chart into HTML
+# Step 4: Embed everything into HTML file
 # -------------------------
 # Read this script file to capture full Python code
 with open(__file__, "r") as f:
@@ -58,13 +58,13 @@ html_content = f"""
     <h3>Python Code Used:</h3>
     <pre>{code_str}</pre>
     <h3>Visualization:</h3>
-    {html_chart}
+    {chart_html}
 </body>
 </html>
 """
 
-# Save to HTML file
+# Save final HTML file
 with open("employee_performance_analysis.html", "w") as f:
     f.write(html_content)
 
-print("✅ HTML file 'employee_performance_analysis.html' created with email + Python code + chart.")
+print("✅ HTML file 'employee_performance_analysis.html' created with email, code, and chart.")
