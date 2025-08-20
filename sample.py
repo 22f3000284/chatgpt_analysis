@@ -4,7 +4,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import mpld3
-import inspect
 
 # -------------------------
 # Step 1: Load the dataset
@@ -41,10 +40,11 @@ plt.tight_layout()
 html_chart = mpld3.fig_to_html(plt.gcf())
 
 # -------------------------
-# Step 4: Embed everything in HTML
+# Step 4: Embed email, code, and chart into HTML
 # -------------------------
-# Grab the full Python code as string
-code_str = inspect.getsource(inspect.currentframe())
+# Read this script file to capture full Python code
+with open(__file__, "r") as f:
+    code_str = f.read()
 
 html_content = f"""
 <html>
@@ -63,9 +63,8 @@ html_content = f"""
 </html>
 """
 
-# Save to HTML
+# Save to HTML file
 with open("employee_performance_analysis.html", "w") as f:
     f.write(html_content)
 
-print("HTML file 'employee_performance_analysis.html' created successfully with email, code, and chart.")
-
+print("✅ HTML file 'employee_performance_analysis.html' created with email + Python code + chart.")
