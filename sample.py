@@ -1,5 +1,4 @@
 # Employee Performance Analysis
-# Author: Data Analyst
 # Verification Email: 22f3000284@ds.study.iitm.ac.in
 
 import pandas as pd
@@ -38,13 +37,13 @@ plt.ylabel("Count")
 plt.xticks(rotation=45)
 plt.tight_layout()
 
-# Convert the matplotlib figure to HTML
+# Convert matplotlib figure to HTML
 html_chart = mpld3.fig_to_html(plt.gcf())
 
 # -------------------------
-# Step 4: Embed email, code, and chart into HTML
+# Step 4: Embed everything in HTML
 # -------------------------
-# Get this script's code as a string
+# Grab the full Python code as string
 code_str = inspect.getsource(inspect.currentframe())
 
 html_content = f"""
@@ -64,7 +63,9 @@ html_content = f"""
 </html>
 """
 
+# Save to HTML
 with open("employee_performance_analysis.html", "w") as f:
     f.write(html_content)
 
-print("HTML file 'employee_performance_analysis.html' generated successfully with email + code + chart.")
+print("HTML file 'employee_performance_analysis.html' created successfully with email, code, and chart.")
+
