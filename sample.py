@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
+import os
 
 # -------------------------
 # Step 1: Load the dataset
@@ -45,15 +46,15 @@ img_base64 = base64.b64encode(buffer.read()).decode("utf-8")
 plt.close(fig)
 
 # -------------------------
-# Step 4: Read this script (so Python code is in HTML)
+# Step 4: Embed everything into HTML
 # -------------------------
+# Read this script file to capture the full Python code
+script_name = os.path.basename(__file__)
 with open(__file__, "r") as f:
     code_str = f.read()
 
-# -------------------------
-# Step 5: Build HTML with embedded chart
-# -------------------------
 html_content = f"""
+<!DOCTYPE html>
 <html>
 <head>
     <title>Employee Performance Analysis</title>
@@ -62,7 +63,7 @@ html_content = f"""
     <h2>Employee Performance Analysis</h2>
     <p><b>Verification Email:</b> 22f3000284@ds.study.iitm.ac.in</p>
     <p><b>Frequency count for Operations department:</b> {operations_count}</p>
-    <h3>Python Code Used:</h3>
+    <h3>Python Code Used ({script_name}):</h3>
     <pre>{code_str}</pre>
     <h3>Visualization:</h3>
     <img src="data:image/png;base64,{img_base64}" alt="Department Distribution Chart"/>
@@ -70,6 +71,7 @@ html_content = f"""
 </html>
 """
 
+# Save final HTML file
 with open("employee_performance_analysis.html", "w") as f:
     f.write(html_content)
 
