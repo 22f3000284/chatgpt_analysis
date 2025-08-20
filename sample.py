@@ -3,7 +3,8 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import mpld3
+import base64
+from io import BytesIO
 
 # -------------------------
 # Step 1: Load the dataset
@@ -36,16 +37,22 @@ ax.set_ylabel("Count")
 plt.xticks(rotation=45)
 plt.tight_layout()
 
-# Convert the figure to interactive HTML (contains <script> + <div>)
-chart_html = mpld3.fig_to_html(fig)
+# Save chart to PNG in memory
+buffer = BytesIO()
+plt.savefig(buffer, format="png")
+buffer.seek(0)
+img_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+plt.close(fig)
 
 # -------------------------
-# Step 4: Embed everything into HTML file
+# Step 4: Read this script (so Python code is in HTML)
 # -------------------------
-# Read this script file to capture full Python code
 with open(__file__, "r") as f:
     code_str = f.read()
 
+# -------------------------
+# Step 5: Build HTML with embedded chart
+# -------------------------
 html_content = f"""
 <html>
 <head>
@@ -58,13 +65,12 @@ html_content = f"""
     <h3>Python Code Used:</h3>
     <pre>{code_str}</pre>
     <h3>Visualization:</h3>
-    {chart_html}
+    <img src="data:image/png;base64,{img_base64}" alt="Department Distribution Chart"/>
 </body>
 </html>
 """
 
-# Save final HTML file
 with open("employee_performance_analysis.html", "w") as f:
     f.write(html_content)
 
-print("✅ HTML file 'employee_performance_analysis.html' created with email, code, and chart.")
+print("✅ HTML file 'employee_performance_analysis.html' created with email, code, and embedded chart.")
