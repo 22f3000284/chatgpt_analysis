@@ -1,7 +1,10 @@
-# Email: 22f3000284@ds.study.iitm.ac.in
+# Employee Performance Analysis
+# Author: Data Analyst
+# Verification Email: 22f3000284@ds.study.iitm.ac.in
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import mpld3
 
 # -------------------------
 # Step 1: Load the dataset
@@ -34,14 +37,27 @@ plt.ylabel("Count")
 plt.xticks(rotation=45)
 plt.tight_layout()
 
-# Save the figure as HTML using mpld3
-import mpld3
-html_str = mpld3.fig_to_html(plt.gcf())
+# Convert the matplotlib figure to HTML
+html_chart = mpld3.fig_to_html(plt.gcf())
 
 # -------------------------
-# Step 4: Save as HTML file
+# Step 4: Embed email + chart into HTML
 # -------------------------
+html_content = f"""
+<html>
+<head>
+    <title>Employee Performance Analysis</title>
+</head>
+<body>
+    <h2>Employee Performance Analysis</h2>
+    <p><b>Verification Email:</b> 22f3000284@ds.study.iitm.ac.in</p>
+    <p><b>Frequency count for Operations department:</b> {operations_count}</p>
+    {html_chart}
+</body>
+</html>
+"""
+
 with open("employee_performance_analysis.html", "w") as f:
-    f.write(html_str)
+    f.write(html_content)
 
-print("HTML file 'employee_performance_analysis.html' generated successfully.")
+print("HTML file 'employee_performance_analysis.html' generated successfully with email embedded.")
